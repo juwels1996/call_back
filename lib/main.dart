@@ -84,11 +84,8 @@ class _HomePageState extends State<HomePage> {
             ):
                 Container(
                   color: Colors.white70,
-                  child: CustomDialog(
-                      title: "back value",
-                      valuepass: (){},
-                      entriess: newList,
-                      isEnabled: false),
+                  child: ValueSave(entry: newList,
+                      isEnabled: invisible)
                 )
           ),
 
@@ -127,3 +124,87 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+class ValueSave extends StatefulWidget {
+  List<String> entry = [];
+  bool isEnabled = false;
+  ValueSave(
+      {
+        required this.entry,
+        required this.isEnabled});
+
+  @override
+  State<ValueSave> createState() => _ValueSaveState();
+}
+
+class _ValueSaveState extends State<ValueSave> {
+  bool isvisible = true;
+  TextEditingController textController=TextEditingController();
+
+  @override
+  void initState() {
+    print('lenght=====>${widget.entry.length}');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      width: 600,
+      child: Column(
+        children: [
+
+          InkWell(
+            onTap: () {
+              setState(() {
+                widget.entry.add(textController.text);
+                textController.clear();
+              });
+            },
+            child: Text(
+              "",
+              style: TextStyle(fontSize: 12, color: Colors.tealAccent),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          ...widget.entry.map(
+                (e) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(e),
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.entry.remove(e);
+                      });
+                    },
+                    child: Icon(Icons.delete)),
+                SizedBox(
+                  width: 10,
+                ),
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        textController.text = widget.entry[0];
+                        widget.entry.remove(e);
+                      });
+                    },
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.red,
+                      size: 24,
+                    )),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
