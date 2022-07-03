@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CardValue extends StatelessWidget {
+class CardValue extends StatefulWidget {
   final String topic;
   final IconData icon;
   final Function callbackFunction;
@@ -9,7 +9,11 @@ class CardValue extends StatelessWidget {
 
   CardValue({required this.topic,required this.icon, required this.callbackFunction,required this.isvisible});
 
+  @override
+  State<CardValue> createState() => _CardValueState();
+}
 
+class _CardValueState extends State<CardValue> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,19 +31,21 @@ class CardValue extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    topic,
+                    widget.topic,
                     style: TextStyle(
                         fontSize: 20,
                         color:Colors.white
                     ),
                   ),
                 ),
+                IconButton(onPressed: (){},
+                    icon: Icon(Icons.add)),
                 IconButton(
                   onPressed: (){
-                  callbackFunction;
+                      widget.callbackFunction();
                   print("worked");
                 },
-                    icon: Icon(icon,color: Colors.white,),
+                    icon: Icon(widget.icon,color: Colors.white,),
                 ),
               ],
             ),
